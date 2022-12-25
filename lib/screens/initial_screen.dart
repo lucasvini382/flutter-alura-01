@@ -1,4 +1,5 @@
-import 'package:alura_flutter_curso_1/components/tasks.dart';
+import 'package:alura_flutter_curso_1/data/task_inherited.dart';
+import 'package:alura_flutter_curso_1/screens/form_screen.dart';
 import 'package:flutter/material.dart';
 
 class InitialScreen extends StatefulWidget {
@@ -9,8 +10,6 @@ class InitialScreen extends StatefulWidget {
 }
 
 class _InitialScreenState extends State<InitialScreen> {
-  bool opacidade = true;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,45 +17,22 @@ class _InitialScreenState extends State<InitialScreen> {
         title: const Text('Tarefas'),
         leading: Container(),
       ),
-      body: AnimatedOpacity(
-        opacity: opacidade ? 1 : 0,
-        duration: const Duration(milliseconds: 800),
-        child: ListView(
-          children: const [
-            Padding(
-              padding: EdgeInsets.only(top: 8),
-              child: Tasks(
-                  'Estudar Flutter',
-                  'assets/images/dash.png',
-                  3),
-            ),
-            Tasks(
-                'Andar de Bike',
-                'assets/images/bike.webp',
-                2),
-            Tasks(
-                'Ler',
-                'assets/images/livro.jpg',
-                4),
-            Tasks(
-                'Meditar',
-                'assets/images/meditar.jpeg',
-                5),
-            Tasks('Jogar',
-                'assets/images/jogar.jpg', 1),
-            SizedBox(
-              height: 80,
-            ),
-          ],
-        ),
+      body: ListView(
+        padding: const EdgeInsets.only(top: 8, bottom: 70),
+        children: TaskInherited.of(context).taskList,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          setState(() {
-            opacidade = !opacidade;
-          });
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (contextNew) => FormScreen(
+                taskContext: context,
+              ),
+            ),
+          );
         },
-        child: const Icon(Icons.remove_red_eye),
+        child: const Icon(Icons.add),
       ),
     );
   }
